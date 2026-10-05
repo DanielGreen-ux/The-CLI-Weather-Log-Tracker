@@ -1,6 +1,7 @@
 from datetime import datetime
 import requests
 
+timestamp = datetime.now().strftime("%Y-%m-%d")
 
 user_input = input("Enter a City name(e.g., London): ")
 response = requests.get(f"https://geocoding-api.open-meteo.com/v1/search?name={user_input}")
@@ -23,4 +24,7 @@ class Weather:
         return f"City: {self.city} | Temp: {self.temperature}°C | Wind Speed: {self.windspeed} km/h"
 
 user = Weather(city_name, temperature, windspeed)
-print(user.summary())
+user_details = user.summary()
+print(user_details)
+with open("weather_history.txt", "a") as file:
+    file.write(f"[{timestamp}] {user_details}\n")
